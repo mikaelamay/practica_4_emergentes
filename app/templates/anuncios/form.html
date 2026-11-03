@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+  {% set editando = anuncio is not none %}
+  {% set titulo_valor = datos.get('titulo', anuncio.titulo if anuncio else '') %}
+  {% set contenido_valor = datos.get('contenido', anuncio.contenido if anuncio else '') %}
+  {% set categoria_sel = datos.get('categoria_id', anuncio.categoria_id if anuncio else 0) %}
+
+  <nav aria-label="Ruta de navegación">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('anuncios.listar') }}">Anuncios</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ titulo }}</li>
+    </ol>
+  </nav>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+          <h1 class="h4 fw-bold mb-0">
+            <i class="bi bi-{{ 'pencil-square' if editando else 'plus-circle' }} me-2 text-primary"></i>{{ titulo }}
+          </h1>
+        </div>
+        <div class="card-body p-4">
+          <form method="post" novalidate>
+            <div class="mb-3">
+              <label for="titulo" class="form-label">Título <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="titulo" name="titulo"
+                     value="{{ titulo_valor }}" minlength="5" maxlength="150" required autofocus>
+              <div class="form-text">Entre 5 y 150 caracteres.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="categoria_id" class="form-label">Categoría <span class="text-danger">*</span></label>
+              <select class="form-select" id="categoria_id" name="categoria_id" required>
+                <option value="">Seleccioná una categoría...</option>
+                {% for categoria in categorias %}
+                  <option value="{{ categoria.id }}"
+                          {% if categoria.id|string == categoria_sel|string %}selected{% endif %}>
+                    {{ categoria.nombre }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="mb-4">
+              <label for="contenido" class="form-label">Contenido <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="contenido" name="contenido" rows="9"
+                        minlength="10" required
+                        placeholder="Escribí el texto completo del anuncio...">{{ contenido_valor }}</textarea>
+              <div class="form-text">Mínimo 10 caracteres. Se respetan los saltos de línea.</div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+              <a href="{{ url_for('anuncios.listar') }}" class="btn btn-outline-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-send me-1"></i>{{ 'Guardar cambios' if editando else 'Publicar anuncio' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

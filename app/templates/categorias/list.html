@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% from "macros.html" import render_paginacion, estado_vacio %}
+
+{% block title %}Categorías{% endblock %}
+
+{% block content %}
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <div>
+      <h1 class="h3 fw-bold mb-1"><i class="bi bi-tags me-2 text-primary"></i>Administración de categorías</h1>
+      <p class="text-secondary mb-0">Organizá los anuncios del tablón por temáticas.</p>
+    </div>
+    <a href="{{ url_for('categorias.crear') }}" class="btn btn-primary">
+      <i class="bi bi-tag me-1"></i>Nueva categoría
+    </a>
+  </div>
+
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+      <form method="get" action="{{ url_for('categorias.listar') }}" class="row g-2 align-items-end">
+        <div class="col-md-8">
+          <label for="q" class="form-label">Buscar categoría</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input type="search" class="form-control" id="q" name="q" value="{{ busqueda }}"
+                   placeholder="Nombre o descripción...">
+          </div>
+        </div>
+        <div class="col-md-4 d-flex gap-2">
+          <button type="submit" class="btn btn-primary flex-grow-1">
+            <i class="bi bi-funnel me-1"></i>Buscar
+          </button>
+          {% if busqueda %}
+            <a href="{{ url_for('categorias.listar') }}" class="btn btn-outline-secondary" title="Limpiar">
+              <i class="bi bi-x-lg"></i>
+            </a>
+          {% endif %}
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th class="text-center">Anuncios</th>
+            <th>Creada</th>
+            <th class="text-end">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for categoria in categorias %}
+            <tr>
+              <td class="fw-semibold">
+                <span class="badge badge-categoria"><i class="bi bi-tag me-1"></i>{{ categoria.nombre }}</span>
+              </td>
+              <td class="text-secondary">{{ categoria.descripcion or '—' }}</td>
+              <td class="text-center">
+                <span class="badge text-bg-light border">{{ categoria.total_anuncios }}</span>
+              </td>
+              <td class="text-nowrap">{{ categoria.creado_en|fecha("%d/%m/%Y") }}</td>
+              <td class="text-end text-nowrap">
+                <a href="{{ url_for('categorias.editar', id_categoria=categoria.id) }}"
+                   class="btn btn-sm btn-outline-primary" title="Editar">
+                  <i class="bi bi-pencil-square"></i>
+                </a>
+                {% if categoria.total_anuncios == 0 %}
+                  <form action="{{ url_for('categorias.eliminar', id_categoria=categoria.id) }}"
+                        method="post" class="d-inline"
+                        onsubmit="return confirm('¿Eliminar la categoría {{ categoria.nombre }}?');">
+                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </form>
+                {% else %}
+                  <button type="button" class="btn btn-sm btn-outline-secondary" disabled
+                          title="Tiene anuncios asociados">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                {% endif %}
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="5">
+                {{ estado_vacio("bi-tags", "No se encontraron categorías",
+                                "Creá la primera categoría del tablón.") }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {{ render_paginacion(paginacion) }}
+{% endblock %}

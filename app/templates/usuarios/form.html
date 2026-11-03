@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+  {% set editando = usuario is not none %}
+  {% set nombre = datos.get('nombre', usuario.nombre if usuario else '') %}
+  {% set username = datos.get('username', usuario.username if usuario else '') %}
+  {% set email = datos.get('email', usuario.email if usuario else '') %}
+  {% set rol = datos.get('rol', usuario.rol if usuario else 'usuario') %}
+  {% if datos %}
+    {% set activo = datos.get('activo') == 'on' %}
+  {% else %}
+    {% set activo = usuario.activo if usuario else true %}
+  {% endif %}
+
+  <nav aria-label="Ruta de navegación">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('usuarios.listar') }}">Usuarios</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ titulo }}</li>
+    </ol>
+  </nav>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+          <h1 class="h4 fw-bold mb-0">
+            <i class="bi bi-person-{{ 'gear' if editando else 'plus' }} me-2 text-primary"></i>{{ titulo }}
+          </h1>
+        </div>
+        <div class="card-body p-4">
+          <form method="post" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="nombre" class="form-label">Nombre completo <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="nombre" name="nombre"
+                       value="{{ nombre }}" minlength="3" maxlength="120" required>
+              </div>
+
+              <div class="col-md-6">
+                <label for="username" class="form-label">Nombre de usuario <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text">@</span>
+                  <input type="text" class="form-control" id="username" name="username"
+                         value="{{ username }}" minlength="3" maxlength="50" required>
+                </div>
+                <div class="form-text">Letras, números, punto, guion o guion bajo.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="email" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="email" name="email"
+                       value="{{ email }}" maxlength="150" required>
+              </div>
+
+              <div class="col-md-6">
+                <label for="password" class="form-label">
+                  Contraseña {% if not editando %}<span class="text-danger">*</span>{% endif %}
+                </label>
+                <input type="password" class="form-control" id="password" name="password"
+                       autocomplete="new-password" {% if not editando %}required{% endif %}>
+                <div class="form-text">
+                  {% if editando %}
+                    Dejala vacía para conservar la contraseña actual.
+                  {% else %}
+                    Mínimo 8 caracteres, con al menos una letra y un número.
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="rol" class="form-label">Rol <span class="text-danger">*</span></label>
+                <select class="form-select" id="rol" name="rol" required>
+                  {% for opcion in roles %}
+                    <option value="{{ opcion }}" {% if rol == opcion %}selected{% endif %}>
+                      {{ opcion|capitalize }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="col-md-6 d-flex align-items-end">
+                <div class="form-check form-switch mb-2">
+                  <input class="form-check-input" type="checkbox" role="switch"
+                         id="activo" name="activo" {% if activo %}checked{% endif %}>
+                  <label class="form-check-label" for="activo">Cuenta activa</label>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="d-flex justify-content-end gap-2">
+              <a href="{{ url_for('usuarios.listar') }}" class="btn btn-outline-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save me-1"></i>{{ 'Guardar cambios' if editando else 'Crear usuario' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

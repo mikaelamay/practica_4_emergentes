@@ -1,0 +1,43 @@
+{% macro render_paginacion(pag) %}
+  {% if pag.pages > 1 %}
+    <nav aria-label="Paginación">
+      <ul class="pagination justify-content-center mt-4 mb-0">
+        <li class="page-item {% if not pag.has_prev %}disabled{% endif %}">
+          {% set args = request.args.to_dict() %}
+          {% set _ = args.update({'page': pag.prev_num}) %}
+          <a class="page-link" href="{{ url_for(request.endpoint, **args) }}" aria-label="Anterior">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        </li>
+
+        {% for numero in pag.iter_pages(left_edge=1, left_current=2, right_current=2, right_edge=1) %}
+          {% if numero %}
+            {% set args = request.args.to_dict() %}
+            {% set _ = args.update({'page': numero}) %}
+            <li class="page-item {% if numero == pag.page %}active{% endif %}">
+              <a class="page-link" href="{{ url_for(request.endpoint, **args) }}">{{ numero }}</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">…</span></li>
+          {% endif %}
+        {% endfor %}
+
+        <li class="page-item {% if not pag.has_next %}disabled{% endif %}">
+          {% set args = request.args.to_dict() %}
+          {% set _ = args.update({'page': pag.next_num}) %}
+          <a class="page-link" href="{{ url_for(request.endpoint, **args) }}" aria-label="Siguiente">
+            <i class="bi bi-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  {% endif %}
+{% endmacro %}
+
+{% macro estado_vacio(icono, titulo, mensaje) %}
+  <div class="text-center py-5 text-secondary">
+    <i class="bi {{ icono }} display-3 d-block mb-2 opacity-50"></i>
+    <h5 class="fw-semibold">{{ titulo }}</h5>
+    <p class="mb-0">{{ mensaje }}</p>
+  </div>
+{% endmacro %}

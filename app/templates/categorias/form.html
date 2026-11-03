@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+  {% set editando = categoria is not none %}
+  {% set nombre = datos.get('nombre', categoria.nombre if categoria else '') %}
+  {% set descripcion = datos.get('descripcion', categoria.descripcion if categoria and categoria.descripcion else '') %}
+
+  <nav aria-label="Ruta de navegación">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('categorias.listar') }}">Categorías</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ titulo }}</li>
+    </ol>
+  </nav>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+          <h1 class="h4 fw-bold mb-0">
+            <i class="bi bi-tag{{ '-fill' if editando else '' }} me-2 text-primary"></i>{{ titulo }}
+          </h1>
+        </div>
+        <div class="card-body p-4">
+          <form method="post" novalidate>
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="nombre" name="nombre"
+                     value="{{ nombre }}" minlength="3" maxlength="80" required autofocus>
+              <div class="form-text">Debe ser único. Entre 3 y 80 caracteres.</div>
+            </div>
+
+            <div class="mb-4">
+              <label for="descripcion" class="form-label">Descripción</label>
+              <textarea class="form-control" id="descripcion" name="descripcion"
+                        rows="3" maxlength="255"
+                        placeholder="Breve descripción de la categoría...">{{ descripcion }}</textarea>
+              <div class="form-text">Opcional. Máximo 255 caracteres.</div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+              <a href="{{ url_for('categorias.listar') }}" class="btn btn-outline-secondary">Cancelar</a>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save me-1"></i>{{ 'Guardar cambios' if editando else 'Crear categoría' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

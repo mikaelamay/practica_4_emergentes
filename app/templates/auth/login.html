@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center py-4">
+    <div class="col-md-8 col-lg-5">
+      <div class="card login-card shadow">
+        <div class="card-body p-4 p-md-5">
+          <div class="text-center mb-4">
+            <span class="brand-icon bg-primary text-white mb-3" style="width:3.5rem;height:3.5rem;font-size:1.6rem;">
+              <i class="bi bi-shield-lock"></i>
+            </span>
+            <h1 class="h4 fw-bold mb-1">Iniciar sesión</h1>
+            <p class="text-secondary mb-0">Accedé al panel de gestión del tablón</p>
+          </div>
+
+          <form method="post" action="{{ url_for('auth.login', next=request.args.get('next')) }}" novalidate>
+            <div class="mb-3">
+              <label for="identificador" class="form-label">Usuario o correo electrónico</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                <input type="text" class="form-control" id="identificador" name="identificador"
+                       value="{{ request.form.get('identificador', '') }}"
+                       placeholder="admin" autocomplete="username" required autofocus>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-key"></i></span>
+                <input type="password" class="form-control" id="password" name="password"
+                       placeholder="••••••••" autocomplete="current-password" required>
+              </div>
+            </div>
+
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="checkbox" id="recordar" name="recordar">
+              <label class="form-check-label" for="recordar">Mantener sesión iniciada</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+              <i class="bi bi-box-arrow-in-right me-1"></i>Ingresar
+            </button>
+          </form>
+
+          <div class="alert alert-light border mt-4 mb-0 small text-secondary">
+            <i class="bi bi-info-circle me-1"></i>
+            <strong>Usuario de prueba:</strong> <code>admin</code> ·
+            <strong>Contraseña:</strong> <code>Admin123!</code>
+          </div>
+        </div>
+      </div>
+      <p class="text-center text-secondary small mt-3 mb-0">
+        <a href="{{ url_for('main.index') }}" class="text-decoration-none">
+          <i class="bi bi-arrow-left me-1"></i>Volver al tablón público
+        </a>
+      </p>
+    </div>
+  </div>
+{% endblock %}
