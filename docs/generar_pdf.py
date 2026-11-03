@@ -115,14 +115,14 @@ a { color: #12558f; text-decoration: none; }
 
 PORTADA = """
 <section class="cover">
-  <div class="univ">Universidad Nacional</div>
+  <div class="univ">Universidad Pública de El Alto</div>
   <div class="fac">Facultad de Ingeniería</div>
   <h1>Aplicación web:<br>Tablón de Anuncios con Flask</h1>
   <div class="practica">Práctica N° 4</div>
+  <p style="font-size:12pt;color:#52606d;margin-bottom:10mm;">Desarrollado por Mayte</p>
   <table class="datos">
     <tr><td>Carrera:</td><td>[Completar]</td></tr>
     <tr><td>Asignatura:</td><td>[Completar]</td></tr>
-    <tr><td>Estudiante:</td><td>[Completar]</td></tr>
     <tr><td>Docente:</td><td>[Completar]</td></tr>
     <tr><td>Fecha:</td><td>Noviembre de 2026</td></tr>
   </table>

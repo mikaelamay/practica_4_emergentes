@@ -68,6 +68,7 @@ def create_app(config_class=Config):
             "institucion": app.config["INSTITUCION"],
             "facultad": app.config["FACULTAD"],
             "sistema": app.config["SISTEMA"],
+            "desarrollador": app.config["DESARROLLADOR"],
             "anio_actual": datetime.now().year,
         }
 

@@ -8,12 +8,12 @@
 
 ## Portada
 
-**Universidad:** [Nombre de la universidad]  
+**Universidad:** Universidad Pública de El Alto  
 **Facultad:** [Nombre de la facultad]  
 **Carrera:** [Nombre de la carrera]  
 **Asignatura:** [Nombre de la asignatura]  
 **Título:** Aplicación web: Tablón de Anuncios con Flask  
-**Estudiante:** [Nombre y apellido]  
+**Desarrollado por:** Mayte  
 **Docente:** [Nombre del docente]  
 **Fecha:** [Noviembre de 2026]
 

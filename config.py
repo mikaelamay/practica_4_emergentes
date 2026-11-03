@@ -29,9 +29,10 @@ class Config:
     SQLALCHEMY_ENGINE_OPTIONS = {"pool_pre_ping": True, "pool_recycle": 280}
 
     # Datos institucionales que se muestran en la cabecera y el pie.
-    INSTITUCION = os.getenv("INSTITUCION", "Universidad Nacional")
+    INSTITUCION = os.getenv("INSTITUCION", "Universidad Pública de El Alto")
     FACULTAD = os.getenv("FACULTAD", "Facultad de Ingeniería")
     SISTEMA = os.getenv("SISTEMA", "Tablón de Anuncios")
+    DESARROLLADOR = os.getenv("DESARROLLADOR", "Mayte")
 
     # Paginación
     ANUNCIOS_POR_PAGINA = int(os.getenv("ANUNCIOS_POR_PAGINA", "6"))
