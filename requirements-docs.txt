@@ -1,3 +1,0 @@
-# Herramientas opcionales para generar las capturas y el PDF del informe.
-markdown==3.11.2
-playwright==1.64.1

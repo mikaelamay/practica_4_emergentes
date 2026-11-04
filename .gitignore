@@ -24,3 +24,7 @@ instance/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Documentación e informe (se mantienen solo en local, no se suben)
+docs/
+requirements-docs.txt

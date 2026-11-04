@@ -61,7 +61,6 @@ practica4_emergentes/
 ├── database/
 │   ├── setup.sql                # base de datos, usuario y permisos
 │   └── schema.sql               # tablas, PK, FK, índices y relaciones
-├── docs/                        # documento base del informe y capturas
 ├── tests/                       # pruebas funcionales con pytest
 ├── config.py                    # configuración por variables de entorno
 ├── run.py                       # punto de entrada
@@ -254,40 +253,6 @@ pytest
 La suite usa SQLite en memoria y verifica autenticación, permisos por rol, CRUD de las
 tres entidades, validaciones y reglas de negocio (por ejemplo, no eliminar una categoría
 con anuncios ni la propia cuenta del administrador).
-
-## Flujo sugerido para las capturas del informe
-
-1. Página principal pública con los anuncios de ejemplo.
-2. Formulario de inicio de sesión.
-3. Tablón luego de iniciar sesión como administrador.
-4. Listado y formulario de usuarios.
-5. Listado y formulario de categorías.
-6. Listado, formulario y detalle de anuncios.
-7. Mensaje de validación (por ejemplo, categoría duplicada).
-8. Página 403 al intentar entrar a una sección sin permisos.
-
-## Documento del informe
-
-En [`docs/documento_practica.md`](docs/documento_practica.md) hay un borrador con la
-portada, el diseño de la base de datos, la estructura del proyecto y los espacios para
-las capturas. Las capturas generadas automáticamente se guardan en `docs/capturas/`.
-
-### Generar capturas y PDF (opcional)
-
-Con la aplicación en ejecución en `http://127.0.0.1:5000`:
-
-```bash
-pip install -r requirements-docs.txt
-
-# Capturas de pantalla con un navegador headless
-python docs/generar_capturas.py
-
-# Informe PDF a partir de documento_practica.md
-python docs/generar_pdf.py
-```
-
-El PDF se genera en `docs/informe_practica4.pdf`. Los scripts usan el Chromium del
-sistema (`/usr/bin/chromium`); si está en otra ruta, definir `CHROMIUM_PATH`.
 
 ## Notas de seguridad y mejoras posibles
 
